@@ -31,7 +31,7 @@ mapping (uint => Fund) public funds;
         State state;
         address payable targetAddress;
     }
- 
+    event testEvent(string message);
     event OnGoing(string name, uint balance,string status);
     //event Locked(uint amount);
     event Closed(string name, uint balance, State state);
@@ -63,10 +63,11 @@ mapping (uint => Fund) public funds;
   
     function createNewFund(string memory _name, uint _fundHardCap,address payable _targetAddress) public returns(uint fundId)
    {
+         emit testEvent(string(abi.encodePacked(_name,_fundHardCap)));
+
      fundId = noOfFunds++;
     
     funds[fundId] = Fund(_name, _fundHardCap, 0, State.onGoing,_targetAddress);
-    emit OnGoing(_name,_fundHardCap,"onGoing");
   }
 
   /* Add a keyword so the function can be paid. This function should transfer money
@@ -75,8 +76,8 @@ mapping (uint => Fund) public funds;
     if the buyer paid enough, and check the value after the function is called to make sure the buyer is
     refunded any excess ether sent. Remember to call the event associated with this function!*/
 
-  function contributeToFund(uint _fundId) public payable onGoing(_fundId) paidEnough(msg.value)
-  {
+  function contributeToFund(uint _fundId) public payable onGoing(_fundId) paidEnough(msg.value) 
+ {
     Fund storage f = funds[_fundId];
    if(f.balance<f.fundHardCap){
       f.balance += msg.value;
@@ -89,7 +90,9 @@ mapping (uint => Fund) public funds;
    }
    
     }
-
+  function getAllFundsIds() public view returns (uint ) {
+    return(noOfFunds);
+  }
 
   /* We have these functions completed so we can run tests, just ignore it :) */
   function fetchFundDetails(uint _fundId) public view returns (string memory name, uint fundHardCap, uint balance, State state, address targetAddress) {
