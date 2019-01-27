@@ -5,86 +5,77 @@
 */
 
 pragma solidity ^0.5.0;
+import "./SafeMath.sol";
 
 contract FundFactory {
 
 
-  /* Add a variable called skuCount to track the most recent sku # */
-  /* Add a line that creates a public mapping that maps the SKU (a number) to an Item.
-     Call this mappings items
-  */
+  /* variable called noOfFunds to track the most total list of funds # */
+  
   uint public noOfFunds;
-
+  /* funds creates a public mapping that maps the fundId (a number) to a Fund.
+  */
   mapping (uint => Fund) public funds;
 
- 
+  /* reflect  the state of a fund using State enum*/
   enum State  {onGoing, Closed}
-  /* Create a struct named Item.
-    Here, add a name, sku, price, state, seller, and buyer
-    We've left you to figure out what the appropriate types are,
-    if you need help you can ask around :)
-  */
- struct Fund {
+  /**  struct used to strore list of funds, created one for each new fund
+    * name, name of the fund
+    * fundHardCap, hard cap upper limit for the fund
+    * balance, current balance fo the fund
+    *benfitiaryAddress benefitiary address of the fund
+  **/
+    struct Fund {
         string name;
         uint fundHardCap;
         uint balance;
-        address payable targetAddress;
+        address payable benfitiaryAddress;
     }
+    //events below fired for each function call that change contract state
     event fundCreation(uint fundId);
     event fundContribution(uint messageReceived);
-
     event OnGoing(string name, uint balance,string status);
-    //event Locked(uint amount);
     event Closed(string name, uint balance, State state);
     
-/* Create a modifer that checks if the msg.sender is the owner of the contract */
-
-  //modifier verifyCaller (address _address) { require (msg.sender == _address); _;}
-
+  //modifier to check if the msg.value is greater than 0
   modifier paidEnough(uint _price) { require(_price>0); _;}
 
-
-  /* For each of the following modifiers, use what you learned about modifiers
-   to give them functionality. For example, the forSale modifier should require
-   that the item with the given sku has the state ForSale. */
-
-  
+  //modifier to check if the fund state is OnGoing
   /*modifier onGoing(uint _fundId) {
     require(funds[_fundId].state ==State.onGoing);
         _;
     }
-
-    modifier closed(uint _fundId) {
+  modifier closed(uint _fundId) {
         require(funds[_fundId].state == State.Closed);
         _;
     }
 */
  
-  
-  
-    function createNewFund(string memory _name, uint _fundHardCap,address payable  _targetAddress) public 
+  /** @dev  function creates a new fund
+    * @param _name name of the fund
+    * @param _fundHardCap hard cap upper limit for the fund
+    * @param _benfitiaryAddress benefitiary address of the fund
+    * emits an event with fundId
+  **/
+   function createNewFund(string memory _name, uint _fundHardCap,address payable  _benfitiaryAddress) public 
    {
-         
-
     uint fundId = noOfFunds++;
-    funds[fundId] = Fund(_name, _fundHardCap, 0, _targetAddress);
+    funds[fundId] = Fund(_name, _fundHardCap, 0, _benfitiaryAddress);
     emit fundCreation((fundId));
 
   }
 
-  /* Add a keyword so the function can be paid. This function should transfer money
-    to the seller, set the buyer as the person who called this transaction, and set the state
-    to Sold. Be careful, this function should use 3 modifiers to check if the item is for sale,
-    if the buyer paid enough, and check the value after the function is called to make sure the buyer is
-    refunded any excess ether sent. Remember to call the event associated with this function!*/
-
-  function contributeToFund(uint _fundId) public payable paidEnough(msg.value) 
+  /** @dev  payable function that allows users to contribute to a fund
+    * @param _fundId unique id to identify the fund in the mapping funds 
+    * emits an event with the new balance
+  **/
+  function contributeToFund(uint _fundId) public payable paidEnough(msg.value) checkAndLimitHardCap(_fundId) 
  {
     Fund memory f = funds[_fundId];
-   if(f.balance<f.fundHardCap){
-      f.balance += msg.value;
-      emit fundContribution(msg.value);
-
+    if(f.balance<f.fundHardCap){
+      f.benfitiaryAddress.transfer(msg.value);
+      f.balance = SafeMath.add(f.balance , msg.value);
+     emit fundContribution(f.balance);
    } 
    else{
      //f.state = State.Closed;
@@ -92,26 +83,54 @@ contract FundFactory {
     }
    
     }
-  function getAllFundsIds() public view returns (uint ) {
+  /** @dev  get the name of the fund by using unique fundId
+    * @param _fundId unique id to identify the fund in the mapping funds 
+    * @return fund name  
+  **/
+   function fundIdToName(uint _fundId) public view returns(string memory) 
+  {
+    Fund memory f = funds[_fundId];
+    return(f.name);
+   } 
+
+   /** @dev get number of funds 
+    * @return noOfFunds  
+  **/
+  function getNoOfFunds() public view returns (uint ) {
     return(noOfFunds);
   }
-
-  /* We have these functions completed so we can run tests, just ignore it :) */
+  
+   /** @dev  view function to get fund details using unqiue _fundId
+    * @param _fundId  unique identifier for the fund
+    * @return name , name of the fund
+    * @return  fundHardCap, hard cap upper limit for the fund
+    * @return balance, current balance fo the fund
+    * @return benfitiaryAddress benefitiary address of the fund
+  **/
   function fetchFundDetails(uint _fundId) public view returns (string memory, uint , uint , address ) {
     Fund memory f  = funds[_fundId];
     string memory name = f.name;
     uint balance = f.balance;
     uint fundHardCap = f.fundHardCap;
     //state = f.state;
-    address targetAddress = f.targetAddress;
-    return (name, fundHardCap, balance, targetAddress);
+    address benfitiaryAddress = f.benfitiaryAddress;
+    return (name, fundHardCap, balance, benfitiaryAddress);
   }
-   function checkHardCapReached(uint _fundId) public view returns (bool) {
-        Fund memory f = funds[_fundId];
-        if (f.balance < f.fundHardCap)    
-            return false;
-        else 
-          return true;
+  
+  
+  /** @dev  modifer to check if the hardcap of the fund is reached
+    * @param _fundId  unique identifier for the fund
+    * @return refund the amount that exceeds the hardcap to to the sender
+  **/
+  modifier checkAndLimitHardCap(uint _fundId) {
+         _;
+        Fund memory f  = funds[_fundId];
+        uint fundHardCap = f.fundHardCap;
+        uint balance = f.balance;
+        uint amountToHardCap = SafeMath.sub(fundHardCap,balance);
+        uint amountToRefund = SafeMath.sub(msg.value , amountToHardCap) ; 
+       if(amountToRefund>0)
+        msg.sender.transfer(amountToRefund);
        /* uint amount = f.balance;
         f.balance = 0;
         f.targetAddress.transfer(amount);
