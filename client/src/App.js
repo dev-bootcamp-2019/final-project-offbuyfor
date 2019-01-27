@@ -12,7 +12,7 @@ class App extends Component {
   benefitiaryAddress:null,noOfFunds: '',fundBalance:0, 
   listSelectionFundId:0,contributionAmount:0,
   fundGoal: 0, web3: null, accounts: null, contract: null };
-
+ 
   componentDidMount = async () => {
     try {
       // Get network provider and web3 instance.
@@ -26,7 +26,7 @@ class App extends Component {
       const deployedNetwork = FundFactoryContract.networks[networkId];
       const instance = new web3.eth.Contract(
         FundFactoryContract.abi,
-        deployedNetwork && deployedNetwork.address,
+      '0xE2FfCDB3c018794435179217bE7C8feEDc53dE8A'
       );
 
       // Set web3, accounts, and contract to the state, and then proceed with an
@@ -63,7 +63,7 @@ class App extends Component {
       const { accounts, contract } = this.state;
       // Stores a given value, 5 by default.
       const response = await contract.methods.createNewFund(this.state.name, this.state.fundHardCap,
-        this.state.benefitiaryAddress).send({ from: accounts[0] });
+        this.state.benefitiaryAddress).send({ from: accounts[0],value :1000000000000000});
       // Get the value from the contract to prove it worked.
       // Update state with the result.
       this.setState({ createdFundId: response[0] });
@@ -90,8 +90,9 @@ class App extends Component {
     event.preventDefault();
     console.log('this is contribute button');
     const { accounts, contract } = this.state;
+
     // Stores a given value, 5 by default.
-    const response = await contract.methods.contributeToFund(this.state.fundId,this.state.contributionAmount).send({ from: accounts[0] });
+    const response = await contract.methods.contributeToFund(this.state.fundId).send({ from: accounts[0],value: 1000000000000000000});
     // Get the value from the contract to prove it worked.
     // Update state with the result.
    // this.setState({ getFundname: response[0], getFundHardCap:response[1],getFundBalance:response[2],getFundBenefitiaryAddress:response[4] });
@@ -110,9 +111,13 @@ class App extends Component {
 
     const { accounts, contract } = this.state;
     // Stores a given value, 5 by default.
-    const response = await contract.methods.fetchFundDetails(this.state.fundId).send({ from: accounts[0] });
+    const response = await contract.methods.fetchFundDetails(this.state.fundId).call();
     // Get the value from the contract to prove it worked.
     // Update state with the result.
+    console.log(response[0]);
+    console.log(response[1]);
+    
+
     this.setState({ getFundname: response[0], getFundHardCap:response[1],getFundBalance:response[2],getFundBenefitiaryAddress:response[4] });
 
   }

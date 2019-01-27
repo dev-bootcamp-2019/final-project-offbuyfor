@@ -13,12 +13,12 @@ contract FundFactory {
   /* Add a line that creates a public mapping that maps the SKU (a number) to an Item.
      Call this mappings items
   */
-uint public noOfFunds;
+  uint public noOfFunds;
 
-mapping (uint => Fund) public funds;
+  mapping (uint => Fund) public funds;
 
  
- enum State  {onGoing, Closed}
+  enum State  {onGoing, Closed}
   /* Create a struct named Item.
     Here, add a name, sku, price, state, seller, and buyer
     We've left you to figure out what the appropriate types are,
@@ -28,10 +28,11 @@ mapping (uint => Fund) public funds;
         string name;
         uint fundHardCap;
         uint balance;
-        State state;
         address payable targetAddress;
     }
-    event testEvent(string message);
+    event fundCreation(uint fundId);
+    event fundContribution(uint messageReceived);
+
     event OnGoing(string name, uint balance,string status);
     //event Locked(uint amount);
     event Closed(string name, uint balance, State state);
@@ -48,7 +49,7 @@ mapping (uint => Fund) public funds;
    that the item with the given sku has the state ForSale. */
 
   
-  modifier onGoing(uint _fundId) {
+  /*modifier onGoing(uint _fundId) {
     require(funds[_fundId].state ==State.onGoing);
         _;
     }
@@ -57,17 +58,18 @@ mapping (uint => Fund) public funds;
         require(funds[_fundId].state == State.Closed);
         _;
     }
-
+*/
  
   
   
-    function createNewFund(string memory _name, uint _fundHardCap,address payable _targetAddress) public returns(uint fundId)
+    function createNewFund(string memory _name, uint _fundHardCap,address payable  _targetAddress) public 
    {
-         emit testEvent(string(abi.encodePacked(_name,_fundHardCap)));
+         
 
-     fundId = noOfFunds++;
-    
-    funds[fundId] = Fund(_name, _fundHardCap, 0, State.onGoing,_targetAddress);
+    uint fundId = noOfFunds++;
+    funds[fundId] = Fund(_name, _fundHardCap, 0, _targetAddress);
+    emit fundCreation((fundId));
+
   }
 
   /* Add a keyword so the function can be paid. This function should transfer money
@@ -76,18 +78,18 @@ mapping (uint => Fund) public funds;
     if the buyer paid enough, and check the value after the function is called to make sure the buyer is
     refunded any excess ether sent. Remember to call the event associated with this function!*/
 
-  function contributeToFund(uint _fundId) public payable onGoing(_fundId) paidEnough(msg.value) 
+  function contributeToFund(uint _fundId) public payable paidEnough(msg.value) 
  {
-    Fund storage f = funds[_fundId];
+    Fund memory f = funds[_fundId];
    if(f.balance<f.fundHardCap){
       f.balance += msg.value;
+      emit fundContribution(msg.value);
+
    } 
    else{
-     f.state = State.Closed;
-        emit Closed(f.name,f.balance,State.Closed);
-
-        
-   }
+     //f.state = State.Closed;
+      emit fundContribution(0);
+    }
    
     }
   function getAllFundsIds() public view returns (uint ) {
@@ -95,22 +97,24 @@ mapping (uint => Fund) public funds;
   }
 
   /* We have these functions completed so we can run tests, just ignore it :) */
-  function fetchFundDetails(uint _fundId) public view returns (string memory name, uint fundHardCap, uint balance, State state, address targetAddress) {
-    Fund storage f  = funds[_fundId];
-    name = f.name;
-    balance = f.balance;
-    fundHardCap = f.fundHardCap;
-    state = f.state;
-    targetAddress = f.targetAddress;
-    return (name, fundHardCap, balance, state, targetAddress);
+  function fetchFundDetails(uint _fundId) public view returns (string memory, uint , uint , address ) {
+    Fund memory f  = funds[_fundId];
+    string memory name = f.name;
+    uint balance = f.balance;
+    uint fundHardCap = f.fundHardCap;
+    //state = f.state;
+    address targetAddress = f.targetAddress;
+    return (name, fundHardCap, balance, targetAddress);
   }
-   function checkHardCapReached(uint _fundId) public returns (bool reached) {
-        Fund storage f = funds[_fundId];
-        if (f.balance < f.fundHardCap)
+   function checkHardCapReached(uint _fundId) public view returns (bool) {
+        Fund memory f = funds[_fundId];
+        if (f.balance < f.fundHardCap)    
             return false;
-        uint amount = f.balance;
+        else 
+          return true;
+       /* uint amount = f.balance;
         f.balance = 0;
         f.targetAddress.transfer(amount);
-        return true;
+        return true; */
     }
 }

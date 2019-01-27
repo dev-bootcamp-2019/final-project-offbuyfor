@@ -9,28 +9,58 @@ var FundFactory = artifacts.require('FundFactory');
 
 contract('FundFactory', function(accounts) {
 
-    const targetAddress = accounts[0]
+    const senderAddress = accounts[0]
     const emptyAddress = '0x0000000000000000000000000000000000000000'
-    const name = 'dummyfundname'
-    var sku
+    const benefitiaryAddress = accounts[1];
+    const name = 'manmohan'
+    var fundId
+    var amountReceived
     const hardCap = "1000"
+    const contributionAmount= "100";
+    let fundFactory
+    beforeEach(async() => {
+    fundFactory = await FundFactory.deployed()
 
-    it("should create a new fund", async() => {
-        const fundFactory = await FundFactory.deployed()
-
-        var eventEmitted = false
-
-	const tx = await fundFactory.createNewFund(name,hardCap,emptyAddress)
-	if (tx.logs[0].event === "Editable") {
-		sku = tx.logs[0].args.sku.toString(10)
-		eventEmitted = true
-	}
-        
-        const result = await fundFactory.fundinstance.getPoolInfo()
-
-        assert.equal(result[1], 0, 'the fund balance is not set as 0')
-        assert.equal(result[0].toString(10), emptyAddress, 'target address not set properly')
-          assert.equal(eventEmitted, true, 'creating a new fund should emit a Editable event')
     })
 
+    it("calling create a new fund , should emit an event and return fundId", async() => {
+        var eventEmitted = false
+
+	    const tx = await fundFactory.createNewFund(name,hardCap,benefitiaryAddress)
+        
+        if (tx.logs[0].event === "fundCreation") {
+		fundId = tx.logs[0].args.fundId.toString(10)
+		eventEmitted = true
+        }
+        assert.equal(fundId, '0', 'first fundid is equal to 0 ')
+
+        assert.equal(eventEmitted, true, 'creating a new fund should emit a Editable event')
+
+            
+    })
+    it("calling fetchFundDetails, should return fund parameters", async() => {
+        const result = await fundFactory.fetchFundDetails.call(0)
+
+        assert.equal(result[0], name, 'the fund name is not set properly')
+        assert.equal(result[1], hardCap, 'the fund hardcap is not set properly')
+        assert.equal(result[2], 0, 'the fund balance is not set as 0')
+        assert.equal(result[3].toString(10), benefitiaryAddress, 'benefitiary address not set properly')
+
+
+            
+    })
+    it("check if the fundHard cap has reached", async() => {
+        const result = await fundFactory.checkHardCapReached.call(0)
+
+        assert.equal(result, false, 'Fund balance should be less than hardCap')
+    })
+    it("call contribute function to contribute to a fund", async() => {
+        const tx = await fundFactory.contributeToFund(0,{from:senderAddress,value:contributionAmount})
+        if(tx.logs[0].event === "fundContribution") {
+            amountReceived = tx.logs[0].args.messageReceived.toString(10)
+            }
+         assert.equal(amountReceived, contributionAmount, 'amount sent doesnt match amount received')
+     })
+
+    
 });
