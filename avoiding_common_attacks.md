@@ -12,3 +12,12 @@ Implemented ``` SafeMath.sol```  from the OpenZepplin library is being used for 
 Currently, the contract is checking the balance of the fund in the ```contributeToFund``` function, a modifier has been created to verify the amount sent by the sender is greater than 0. 
 Another modifier to check if the fund is Ongoing vs Closed to make sure it has not reached its fundraiser goal already before adding balance.
 A future implementation would include refund of excess contribute to the msg.sender.
+
+### only FundCreator owner address for emergency stopping
+The below modifier has a security check to verify caller as the owner of the fund created, before going for emergency stop
+ ```//check if the person changing the circuit breaker flag is the fund creator 
+    modifier isFundCreator(uint _fundId) {
+    require(msg.sender == funds[_fundId].owner);
+    _;
+    }
+```
