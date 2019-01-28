@@ -12,12 +12,13 @@ class App extends Component {
 		fundId: 0,
 		fundHardCap: 0,
 		getFundname: '',
-		getFundBalance: 0,
+		getFundBalance: null,
 		getFundHardCap: '',
 		getFundBenefitiaryAddress: null,
 		benefitiaryAddress: null,
 		noOfFunds: 0,
-		fundBalance: 0,
+    fundBalance: 0,
+    fundState:'',
 		listSelectionFundId: 0,
 		contributionAmount: 0,
 		items: [],
@@ -126,8 +127,9 @@ class App extends Component {
 			getFundname: response[0],
 			getFundHardCap: response[1],
 			getFundBalance: response[2],
-			getFundBenefitiaryAddress: response[3]
-		});
+      getFundBenefitiaryAddress: response[3],
+      fundState:response[4]
+      		});
 
 	}
   /** @dev onChange function for input box name
@@ -183,33 +185,7 @@ class App extends Component {
     };
     return (
       <div className="App">
-      <h2>Get Fund details</h2>
-      <p>
-         If you know your fund id , go ahead and contribute!! 
-         or Confirm your fund id using the button below
-      </p>
-      <form onSubmit={this.handleSubmit}>
-         <label>
-            <div>  No of Funds available: {this.state.noOfFunds}</div>
-            <p>
-               Enter a fundId greater than or equal to 0 and less than {this.state.noOfFunds} to get details
-            </p>
-            <input type="text" value={this.state.value} onChange={this.handleChangefundId.bind(this)} />
-            <button onClick={this.handleClickGetFundDetails.bind(this)}>Get fund details </button> 
-         </label>
-         <div>Fund Name :  {this.state.getFundname}</div>
-         <div>Fund HardCap :  {this.state.getFundHardCap}</div>
-         <div>Fund Balance :  {this.state.getFundBalance}</div>
-         <div>Fund Benefitiary :  {this.state.getFundBenefitiaryAddress}</div>
-         <label>
-         Enter the number of ethers you want to contribute:
-         <input type="number" value={this.state.value} onChange={this.handleChangeContributeAmount.bind(this)} />
-         Enter a fund Id:
-         <input type="text" value={this.state.value} onChange={this.handleChangeContributeFundId.bind(this)} />
-         </label>   
-         <button onClick={this.handleClickContribute.bind(this)}>Contribute </button> 
-      </form>
-      <h1>Create  a new Fund</h1>
+      <h1>Task 1: Create  a new Fund</h1>
       <form onSubmit={this.handleSubmit}>
          <label>
          Name:
@@ -227,6 +203,36 @@ class App extends Component {
       </form>
       <p>Click create new fund to call Contract</p>
       <div>Fund created with Id :  {this.state.createdFundId}</div>
+      <div>  No of Funds available: {this.state.noOfFunds}</div>
+
+      <h1>Task 2: Get Fund details</h1>
+      <p>
+         If you know your fund id , go ahead and contribute!! 
+         or Confirm your fund id using the button below
+      </p>
+      <form onSubmit={this.handleSubmit}>
+         <label>
+            <p>
+               Enter a fundId greater than or equal to 0 and less than {this.state.noOfFunds} to get details
+            </p>
+            <input type="number" value={this.state.value} onChange={this.handleChangefundId.bind(this)} />
+            <button onClick={this.handleClickGetFundDetails.bind(this)}>Get fund details </button> 
+         </label>
+         <div>Fund Name :  {this.state.getFundname}</div>
+         <div>Fund HardCap :  {this.state.getFundHardCap}</div>
+         <div>Fund Balance :  {this.state.getFundBalance}</div>
+         <div>Fund Benefitiary :  {this.state.getFundBenefitiaryAddress}</div>
+         <h1>Task 3: Contribute to a fund</h1>
+
+         <label>
+         Enter a fund Id:
+         <input type="number" value={this.state.value} onChange={this.handleChangeContributeFundId.bind(this)} />
+       Enter the number of ethers you want to contribute:
+         <input type="number" value={this.state.value} onChange={this.handleChangeContributeAmount.bind(this)} />
+            </label>   
+         <button onClick={this.handleClickContribute.bind(this)}>Contribute </button> 
+      </form>
+      
    </div>
     );
   }
