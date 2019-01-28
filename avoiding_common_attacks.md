@@ -14,7 +14,7 @@ Another modifier to check if the fund is Ongoing vs Closed to make sure it has n
 A future implementation would include refund of excess contribute to the msg.sender.
 
 ### onlyFundCreator as owner address for emergency stopping
-The below modifier has a security check to verify caller as the owner of the fund created, before going for emergency stop
+The below modifier has a security check to verify caller as the owner of the fund created, before calling for emergency stop function. So any random address cannot call emergency stoppage of funds
  ```//check if the person changing the circuit breaker flag is the fund creator 
     modifier isFundCreator(uint _fundId) {
     require(msg.sender == funds[_fundId].owner);
