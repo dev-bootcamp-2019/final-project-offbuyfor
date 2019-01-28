@@ -5,13 +5,16 @@
 */
 
 pragma solidity ^0.5.0;
-import "./SafeMath.sol";
 
-contract FundFactory {
+import "./SafeMath.sol";
+import "../client/node_modules/openzeppelin-solidity/contracts/lifecycle/Pausable.sol";
+      
+
+contract FundFactory is Pausable {
 
 
   /* variable called noOfFunds to track the most total list of funds # */
-  
+  address owner;
   uint public noOfFunds;
   /* funds creates a public mapping that maps the fundId (a number) to a Fund.
   */
@@ -32,6 +35,7 @@ contract FundFactory {
         uint balance;
         address payable benfitiaryAddress;
         State state;
+        address owner;
     }
     //events below fired for each function call that change contract state
     event fundCreation(uint fundId);
@@ -52,6 +56,14 @@ contract FundFactory {
           require(funds[_fundId].state == State.Closed);
           _;
       }
+      /**
+    @dev Modifier to check if the sender is the owner of the fund 
+     */
+    modifier onlyOwner(uint _fundId){
+       Fund memory f = funds[_fundId];  
+        require(f.owner == msg.sender);
+        _;
+    }
 
  
   /** @dev  function creates a new fund
@@ -64,18 +76,18 @@ contract FundFactory {
    {
     noOfFunds = SafeMath.add(noOfFunds,1);
     uint fundId = noOfFunds;
-    funds[fundId] = Fund(_name, _fundHardCap, 0, _benfitiaryAddress, State.onGoing);
+    funds[fundId] = Fund(_name, _fundHardCap, 0, _benfitiaryAddress, State.onGoing,msg.sender);
     emit fundCreation((fundId));
 
   }
 
   /** @dev  payable function that allows users to contribute to a fund
     * @param _fundId unique id to identify the fund in the mapping funds 
+    * whenNotPaused modifier from Pausable contract for implementing emergency stop pattern
     * emits an event with the new balance
   **/
-  function contributeToFund(uint _fundId) public payable onGoing(_fundId) paidEnough(msg.value) 
-  //checkAndLimitHardCap(_fundId)
- 
+  function contributeToFund(uint _fundId) public payable onGoing(_fundId) paidEnough(msg.value) onlyOwner(_fundId) whenNotPaused
+       
  {
     Fund memory f = funds[_fundId];
     uint thisfundHardCap = funds[_fundId].fundHardCap;
@@ -89,7 +101,7 @@ contract FundFactory {
      f.state = State.Closed;
      
     }
-   
+ 
     }
   /** @dev  get the name of the fund by using unique fundId
     * @param _fundId unique id to identify the fund in the mapping funds 
@@ -124,7 +136,9 @@ contract FundFactory {
     address benfitiaryAddress = f.benfitiaryAddress;
     return (name, fundHardCap, balance, benfitiaryAddress, state);
   }
- 
+
+  
+
  
    
 }
