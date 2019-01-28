@@ -76,7 +76,7 @@ contract FundFactory is Pausable {
    {
     noOfFunds = SafeMath.add(noOfFunds,1);
     uint fundId = noOfFunds;
-    funds[fundId] = Fund(_name, _fundHardCap, 0, _benfitiaryAddress, State.onGoing,msg.sender);
+    funds[fundId] = Fund(_name, _fundHardCap, 0 , _benfitiaryAddress, State.onGoing,msg.sender);
     emit fundCreation((fundId));
 
   }
@@ -86,16 +86,17 @@ contract FundFactory is Pausable {
     * whenNotPaused modifier from Pausable contract for implementing emergency stop pattern
     * emits an event with the new balance
   **/
-  function contributeToFund(uint _fundId) public payable onGoing(_fundId) paidEnough(msg.value) onlyOwner(_fundId) whenNotPaused
+  function contributeToFund(uint _fundId) public payable onGoing(_fundId) paidEnough(msg.value)
        
  {
     Fund memory f = funds[_fundId];
-    uint thisfundHardCap = funds[_fundId].fundHardCap;
-    uint thisbalance = funds[_fundId].balance;
+    uint thisfundHardCap = f.fundHardCap;
+    uint thisbalance = f.balance;
     if(thisbalance<thisfundHardCap){
+      f.balance = SafeMath.add(thisbalance , msg.value);
+      
       f.benfitiaryAddress.transfer(msg.value);
-      f.balance = SafeMath.add(f.balance , msg.value);
-      emit fundContribution(msg.value);
+      emit fundContribution(f.balance);
    } 
    else{
      f.state = State.Closed;
@@ -123,18 +124,18 @@ contract FundFactory is Pausable {
    /** @dev  view function to get fund details using unqiue _fundId
     * @param _fundId  unique identifier for the fund
     * @return name , name of the fund
-    * @return  fundHardCap, hard cap upper limit for the fund
-    * @return balance, current balance fo the fund
+    * @return  balance, hard cap upper limit for the fund
+    * @return fundHardCap, current balance fo the fund
     * @return benfitiaryAddress benefitiary address of the fund
   **/
   function fetchFundDetails(uint _fundId) public view returns (string memory, uint , uint , address, State) {
     Fund memory f  = funds[_fundId];
     string memory name = f.name;
-    uint balance = f.balance;
+    uint bal = f.balance;
     uint fundHardCap = f.fundHardCap;
     State state = f.state;
     address benfitiaryAddress = f.benfitiaryAddress;
-    return (name, fundHardCap, balance, benfitiaryAddress, state);
+    return (name, fundHardCap, bal, benfitiaryAddress, state);
   }
 
   

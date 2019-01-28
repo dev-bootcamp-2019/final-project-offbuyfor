@@ -12,7 +12,7 @@ class App extends Component {
 		fundId: 0,
 		fundHardCap: 0,
 		getFundname: '',
-		getFundBalance: null,
+		getFundBalance: '',
 		getFundHardCap: '',
 		getFundBenefitiaryAddress: null,
 		benefitiaryAddress: null,
@@ -121,15 +121,13 @@ class App extends Component {
 			contract
 		} = this.state;
 		const response = await contract.methods.fetchFundDetails(this.state.fundId).call();
-  //	console.log(response[0]);
-	//	console.log(response[1]);
+  	console.log(response[0]);
+		console.log(response[2]);
   	this.setState({
 			getFundname: response[0],
 			getFundHardCap: response[1],
 			getFundBalance: response[2],
-      getFundBenefitiaryAddress: response[3],
-      fundState:response[4]
-      		});
+     	    getFundBenefitiaryAddress: response[3]      		});
 
 	}
   /** @dev onChange function for input box name
@@ -202,7 +200,6 @@ class App extends Component {
          <button onClick={this.handleClickNewFund.bind(this)}>Create New Fund</button> 
       </form>
       <p>Click create new fund to call Contract</p>
-      <div>Fund created with Id :  {this.state.createdFundId}</div>
       <div>  No of Funds available: {this.state.noOfFunds}</div>
 
       <h1>Task 2: Get Fund details</h1>
@@ -213,14 +210,13 @@ class App extends Component {
       <form onSubmit={this.handleSubmit}>
          <label>
             <p>
-               Enter a fundId greater than or equal to 0 and less than {this.state.noOfFunds} to get details
+               Enter a fundId greater than 0 but less than No of funds :{this.state.noOfFunds} (if 0 , please create atleast one fund) to get more details details
             </p>
             <input type="number" value={this.state.value} onChange={this.handleChangefundId.bind(this)} />
             <button onClick={this.handleClickGetFundDetails.bind(this)}>Get fund details </button> 
          </label>
          <div>Fund Name :  {this.state.getFundname}</div>
          <div>Fund HardCap :  {this.state.getFundHardCap}</div>
-         <div>Fund Balance :  {this.state.getFundBalance}</div>
          <div>Fund Benefitiary :  {this.state.getFundBenefitiaryAddress}</div>
          <h1>Task 3: Contribute to a fund</h1>
 
