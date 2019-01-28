@@ -1,6 +1,7 @@
-var HDWalletProvider = require(“truffle-hdwallet-provider”);
-var mnemonic = “”;
-const path = require("path");
+var HDWalletProvider = require('truffle-hdwallet-provider');
+//var mnemonic = ''
+
+const path = require("path")
 module.exports = {
     //   compilers: {
     //     solc: '0.4.25'
@@ -12,11 +13,12 @@ module.exports = {
           port: 7545,
           network_id: "*" // Match any network id
         }
-       rinkeby: {
+      /*  ,
+      rinkeby: {
         provider: function() {
-        return new HDWalletProvider(mnemonic,     “https://rinkeby.infura.io/v3/5e91776b042b460cbc7e5f5d64248cd6");
+        return new HDWalletProvider(mnemonic,'');
       },
-      network_id: 1
-    }
+      network_id: 4
+    }*/
       }
     };
