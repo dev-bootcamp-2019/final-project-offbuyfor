@@ -15,7 +15,6 @@ contract FundFactory is Pausable {
 
 
   /* variable called noOfFunds to track the most total list of funds # */
-  address owner;
   uint public noOfFunds;
   /* funds creates a public mapping that maps the fundId (a number) to a Fund.
   */
@@ -23,6 +22,9 @@ contract FundFactory is Pausable {
 
   /* reflect  the state of a fund using State enum*/
   enum State  {onGoing, Closed}
+  //flag for circuit breaker
+  bool private stopped = false;
+  //address private owner;
 
   /**  struct used to strore list of funds, created one for each new fund
     * name, name of the fund
@@ -44,6 +46,16 @@ contract FundFactory is Pausable {
     event OnGoing(uint fundId);
     event Closed(uint fundId);
     
+    //check if the person changing the circuit breaker flag is the fund creator 
+    modifier isFundCreator(uint _fundId) {
+    require(msg.sender == funds[_fundId].owner);
+    _;
+    }
+    //contribution to fund can be stopped by the creator of the fund 
+    modifier stopInEmergency { if (!stopped) _; }
+
+    
+
     //modifier to check if the msg.value is greater than 0
     modifier paidEnough(uint _price) { require(_price>0); _;}
 
@@ -88,7 +100,7 @@ contract FundFactory is Pausable {
     * whenNotPaused modifier from Pausable contract for implementing emergency stop pattern
     * emits an event with the new balance
   **/
-  function contributeToFund(uint _fundId) public payable onGoing(_fundId) paidEnough(msg.value)
+  function contributeToFund(uint _fundId) public payable onGoing(_fundId) paidEnough(msg.value) stopInEmergency
        
  {
     Fund memory f = funds[_fundId];
@@ -138,7 +150,16 @@ contract FundFactory is Pausable {
     return (name, fundHardCap, f.balance, benfitiaryAddress, state);
   }
 
-  
+  /** @dev  Circuit breaker function to stop contribution to a  fund , can only be called by the 
+            fund creator , sets the stopped flag to true and changes funds state to Closed
+    * @param _fundId  unique identifier for the fund
+  **/
+  function toggleContributionActive(uint _fundId) isFundCreator(_fundId) public {
+    stopped = !stopped;
+    funds[_fundId].state = State.Closed;
+
+  }
+
 
  
    
