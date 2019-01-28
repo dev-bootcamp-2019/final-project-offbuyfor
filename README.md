@@ -1,10 +1,4 @@
-# final-project-offbuyfor
-
-Please do not evaluate the project before Sunday Jan 27th end of the day EST time. As the project deadline has been extended by Course administration until then. 
-
-I am going to be working and making changes until then.
-
-# Fundraiser
+# Fundraiser Project
 A simple decentralised app simulating a crowd fundraiser. Funds can be created with name, target goal, balance/status management and define the beneifitiary address to which funds should be credited. The total number of funds available are shown in the user interface and users can enter a unique fund Id to get more details about that fund. If the user knows the unique fund Id they are interested in , they can contribute to the fund in ether. Successful reaching of target goal would change the fund status to closed after which the the user wont be able to contribute to that particular fund Id.
 
 # Installation and Setup
