@@ -53,5 +53,5 @@ Once the transaction has successfully gone through and your bounty has been crea
 If metamask is having issues recognising your address, refresh the browser page.
 
 ## Future features
-### List all the available funds in main page along with fund Id and name in a tabular form so that it is easy for the user to choose the id
+### List all the available funds in the user interface 
 List all the available funds along with fund Id and name in a tabular form so that it is easy for the user to choose the id
