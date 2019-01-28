@@ -1,8 +1,6 @@
 Please do not evaluate the project before Sunday Jan 27th end of the day EST time
 
 
-A document called avoiding_common_attacks.md that explains what measures you took to ensure that your contracts are not susceptible to common attacks.
-
 ### Prevention of re-entrancy
 Prevented re-entrancy in the contract. Use of address.transfer() instead of address.send()
 The contract makes use of ```.address.transfer()``` in the contract function ```contributeToFund``` instead of ```address.send()```. This is a safer way of implementing transactions.
