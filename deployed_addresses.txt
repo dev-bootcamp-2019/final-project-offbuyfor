@@ -1,3 +1,6 @@
 Please do not evaluate the project before Sunday Jan 27th end of the day EST time. As the project deadline has been extended by Course administration until then. 
 
 I am going to be working and making changes until then.
+
+###  Contract Address of FundFactory.sol deployed on Rinkeby testnet
+0x818ca582135c30b0a4D09785Ec5dC1AAC90Ce054 
