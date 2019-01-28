@@ -8,7 +8,8 @@ pragma solidity ^0.5.0;
 
 import "./SafeMath.sol";
 import "../client/node_modules/openzeppelin-solidity/contracts/lifecycle/Pausable.sol";
-      
+//import  "../client/node_modules/web3" as web3;
+    
 
 contract FundFactory is Pausable {
 
@@ -32,14 +33,14 @@ contract FundFactory is Pausable {
     struct Fund {
         string name;
         uint fundHardCap;
-        uint balance;
+        uint256 balance;
         address payable benfitiaryAddress;
         State state;
         address owner;
     }
     //events below fired for each function call that change contract state
     event fundCreation(uint fundId);
-    event fundContribution(uint messageReceived);
+    event fundContribution(uint256 messageReceived);
     event OnGoing(uint fundId);
     event Closed(uint fundId);
     
@@ -76,7 +77,8 @@ contract FundFactory is Pausable {
    {
     noOfFunds = SafeMath.add(noOfFunds,1);
     uint fundId = noOfFunds;
-    funds[fundId] = Fund(_name, _fundHardCap, 0 , _benfitiaryAddress, State.onGoing,msg.sender);
+    uint256 balance = 0;
+    funds[fundId] = Fund(_name, _fundHardCap, balance, _benfitiaryAddress, State.onGoing,msg.sender);
     emit fundCreation((fundId));
 
   }
@@ -91,10 +93,9 @@ contract FundFactory is Pausable {
  {
     Fund memory f = funds[_fundId];
     uint thisfundHardCap = f.fundHardCap;
-    uint thisbalance = f.balance;
+    uint256 thisbalance = f.balance;
     if(thisbalance<thisfundHardCap){
       f.balance = SafeMath.add(thisbalance , msg.value);
-      
       f.benfitiaryAddress.transfer(msg.value);
       emit fundContribution(f.balance);
    } 
@@ -128,14 +129,13 @@ contract FundFactory is Pausable {
     * @return fundHardCap, current balance fo the fund
     * @return benfitiaryAddress benefitiary address of the fund
   **/
-  function fetchFundDetails(uint _fundId) public view returns (string memory, uint , uint , address, State) {
-    Fund memory f  = funds[_fundId];
+  function fetchFundDetails(uint _fundId) public view returns (string memory, uint , uint256 , address, State) {
+    Fund storage f  = funds[_fundId];
     string memory name = f.name;
-    uint bal = f.balance;
     uint fundHardCap = f.fundHardCap;
     State state = f.state;
     address benfitiaryAddress = f.benfitiaryAddress;
-    return (name, fundHardCap, bal, benfitiaryAddress, state);
+    return (name, fundHardCap, f.balance, benfitiaryAddress, state);
   }
 
   

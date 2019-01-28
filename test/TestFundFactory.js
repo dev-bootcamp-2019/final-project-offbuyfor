@@ -30,7 +30,7 @@ contract('FundFactory', function (accounts) {
 			eventEmitted = true
 		}
 	})
-    //test 1 - to create a new fund should emit an event fundCreation
+	  //test 1 - to create a new fund should emit an event fundCreation
 	it("calling create a new fund , should emit an event", async() => {
 
 		
@@ -47,7 +47,7 @@ contract('FundFactory', function (accounts) {
         assert.equal(result[4].toString(10), 0 , 'state not properly set as OnGoing')
         
     })
-   
+  
    //test 3- to contribute to an existing fund emits a fundContribution event with amountreceived
 	it("call contribute function to contribute to a fund", async() => {
         if(eventEmitted){
@@ -58,8 +58,11 @@ contract('FundFactory', function (accounts) {
 		if (contributetx.logs[0].event === "fundContribution") {
 			amountReceived = contributetx.logs[0].args.messageReceived.toString(10)
 		}
+
+		
 		assert.equal(amountReceived, contributionAmount, 'amount sent doesnt match amount received in contract')
-    }
+		    
+	}
     })
      
  

@@ -529,10 +529,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        752,
-                        753
+                        753,
+                        754
                       ],
-                      "referencedDeclaration": 752,
+                      "referencedDeclaration": 753,
                       "src": "680:7:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -612,10 +612,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        752,
-                        753
+                        753,
+                        754
                       ],
-                      "referencedDeclaration": 752,
+                      "referencedDeclaration": 753,
                       "src": "852:7:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -729,7 +729,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 749,
+                          "referencedDeclaration": 750,
                           "src": "1068:3:2",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -922,7 +922,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 749,
+                          "referencedDeclaration": 750,
                           "src": "1273:3:2",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -1446,10 +1446,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        752,
-                        753
+                        753,
+                        754
                       ],
-                      "referencedDeclaration": 752,
+                      "referencedDeclaration": 753,
                       "src": "680:7:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1529,10 +1529,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        752,
-                        753
+                        753,
+                        754
                       ],
-                      "referencedDeclaration": 752,
+                      "referencedDeclaration": 753,
                       "src": "852:7:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1646,7 +1646,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 749,
+                          "referencedDeclaration": 750,
                           "src": "1068:3:2",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -1839,7 +1839,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 749,
+                          "referencedDeclaration": 750,
                           "src": "1273:3:2",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -1976,7 +1976,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.1",
-  "updatedAt": "2019-01-28T06:27:10.559Z",
+  "updatedAt": "2019-01-28T20:33:35.320Z",
   "devdoc": {
     "details": "Base contract which allows children to implement an emergency stop mechanism.",
     "methods": {

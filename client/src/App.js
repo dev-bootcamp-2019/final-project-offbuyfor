@@ -4,6 +4,7 @@ import React, {
 import FundFactoryContract from "./contracts/FundFactory.json";
 import getWeb3 from "./utils/getWeb3";
 import "./App.css";
+import Web3 from "web3";
 
 class App extends Component {
 	state = {
@@ -51,7 +52,7 @@ class App extends Component {
 				web3,
 				accounts,
 				contract: instance
-			}, this.runFundCount);
+			});
 		} catch (error) {
 			// Catch any errors for any of the above operations.
 			alert(
@@ -99,7 +100,7 @@ class App extends Component {
    **/
   handleClickContribute = async(event) => {
 		event.preventDefault();
-		console.log('this is contribute button');
+			// Get network provider and web3 instance.
 		const {
 			accounts,
 			contract
@@ -108,7 +109,7 @@ class App extends Component {
 		// function call 
 		await contract.methods.contributeToFund(this.state.fundId).send({
 			from: accounts[0],
-			value: (this.state.contributionAmount * 1000000000000000000)
+			value: Web3.utils.toWei(this.state.contributionAmount,'ether')
 		});
   }
   /** @dev on button click call the contract function getFunddetails
@@ -126,7 +127,7 @@ class App extends Component {
   	this.setState({
 			getFundname: response[0],
 			getFundHardCap: response[1],
-			getFundBalance: response[2],
+			getFundBalance: Web3.utils.fromWei(response[2],'ether'),
      	    getFundBenefitiaryAddress: response[3]      		});
 
 	}
