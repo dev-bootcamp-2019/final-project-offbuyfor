@@ -1,4 +1,7 @@
 Please do not evaluate the project before Sunday Jan 27th end of the day EST time.
 
 ###  Contract Address of FundFactory.sol deployed on Rinkeby testnet
-0x818ca582135c30b0a4D09785Ec5dC1AAC90Ce054 
+contract address:    0x818ca582135c30b0a4D09785Ec5dC1AAC90Ce054
+account:             0xbb66e66c389b2593602fdbb3f351e81141c453ba
+
+ 
