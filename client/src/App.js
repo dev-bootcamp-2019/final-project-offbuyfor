@@ -51,7 +51,7 @@ class App extends Component {
 				web3,
 				accounts,
 				contract: instance
-			}, this.runFundCount);
+			});
 		} catch (error) {
 			// Catch any errors for any of the above operations.
 			alert(
