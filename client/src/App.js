@@ -184,6 +184,9 @@ class App extends Component {
     };
     return (
       <div className="App">
+
+<div> Current Ethereum Account Address : {this.state.web3.currentProvider.selectedAddress}</div>
+
       <h1>Task 1: Create  a new Fund</h1>
       <form onSubmit={this.handleSubmit}>
          <label>
