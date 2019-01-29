@@ -14,15 +14,17 @@ The project has been created and tested using ganache desktop app on port 7545. 
 Install the Metamask Google Chrome Browser extension from [here](https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en) and follow instructions to set up accounts. Ensure accounts on Metamask are linked to the accounts running on Ganache and connected on the correct network.
 
 ### Test Dapp!
-1. In your terminal window, navigate to project root folder and run ```truffle compile --reset```.
-2.  Once compilation is successful, run ```truffle migrate --reset```.
+1. In the root folder, navigate to /client. From here on your command line, run ```npm install``` to install dependency libraries including openzeppelin-solidity. This will take a few minutes. Please be patient
+2. In a new terminal window, navigate to project root folder and run ```truffle compile```.
+3.  Once compilation is successful, run ```truffle migrate --reset```.
 3. Once migration is successful, run ```truffle test```.
 
 ### Launch Dapp!
 Ensure Google Chrome is open and that your are signed into metamask, with your accounts matching your ganache accounts.(using the mnemoic)
-1. In your terminal window, navigate to project root folder and run ```truffle compile```.
-2.  Once compilation is successful, run ```truffle migrate```.
-3. In the root folder, navigate to /client. From here on your command line, run ```npm install```. Then ```npm run start```. A new tab should open and you should see the following page running on ```localhost:3000```:
+1. (If you  have not done npm install already - In the root folder, navigate to /client. From here on your command line, run ```npm install```)
+2. In your terminal window, navigate to project root folder and run ```truffle compile```.
+3.  Once compilation is successful, run ```truffle migrate --reset```.
+4. In the root folder, navigate to /client. (From here on your command line,if you have not done installation, run ```npm install```). If you have already done the npm installation then ```npm run start```. A new tab should open and you should see the following page running on ```localhost:3000```:
 
 
 # Interacting with the Dapp
