@@ -204,7 +204,7 @@ class App extends Component {
          <button onClick={this.handleClickNewFund.bind(this)}>Create New Fund</button> 
       </form>
       <p>Click create new fund to call Contract</p>
-      <div>  No of Funds available: {this.state.noOfFunds}</div>
+      <div> No of Funds available: {this.state.noOfFunds}</div>
 
       <h1>Task 2: Get Fund details</h1>
       <p>
@@ -214,7 +214,7 @@ class App extends Component {
       <form onSubmit={this.handleSubmit}>
          <label>
             <p>
-               Enter a fundId greater than 0 but less than No of funds :{this.state.noOfFunds} (if 0 , please create atleast one fund) to get more details details
+               Enter a fundId greater than 0 but less than or equal to  available No of funds :{this.state.noOfFunds} (if 0 , please create atleast one fund) to get more details
             </p>
             <input type="number" value={this.state.value} onChange={this.handleChangefundId.bind(this)} />
             <button onClick={this.handleClickGetFundDetails.bind(this)}>Get fund details </button> 
