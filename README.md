@@ -21,10 +21,10 @@ Install the Metamask Google Chrome Browser extension from [here](https://chrome.
 
 ### Launch Dapp!
 Ensure Google Chrome is open and that your are signed into metamask, with your accounts matching your ganache accounts.(using the mnemoic)
-1. (If you  have not done npm install already - In the root folder, navigate to /client. From here on your command line, run ```npm install```)
+1. (If you  have not done npm install yet - In the root folder, navigate to /client. From here on your command line, run ```npm install```)
 2. In your terminal window, navigate to project root folder and run ```truffle compile```.
 3.  Once compilation is successful, run ```truffle migrate --reset```.
-4. In the root folder, navigate to /client. (From here on your command line,if you have not done installation, run ```npm install```). If you have already done the npm installation then ```npm run start```. A new tab should open and you should see the following page running on ```localhost:3000```:
+4. In the root folder, navigate to /client. (From here on your command line,if you have not yet done installation, run ```npm install```). If you have already done the npm installation then ```npm run start```. A new tab should open and you should see the following page running on ```localhost:3000```:
 
 
 # Interacting with the Dapp
