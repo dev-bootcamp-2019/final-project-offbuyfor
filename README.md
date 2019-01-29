@@ -14,8 +14,8 @@ The project has been created and tested using ganache desktop app on port 7545. 
 Install the Metamask Google Chrome Browser extension from [here](https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en) and follow instructions to set up accounts. Ensure accounts on Metamask are linked to the accounts running on Ganache and connected on the correct network.
 
 ### Test Dapp!
-1. In your terminal window, navigate to project root folder and run ```truffle compile```.
-2.  Once compilation is successful, run ```truffle migrate```.
+1. In your terminal window, navigate to project root folder and run ```truffle compile --reset```.
+2.  Once compilation is successful, run ```truffle migrate --reset```.
 3. Once migration is successful, run ```truffle test```.
 
 ### Launch Dapp!
