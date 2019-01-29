@@ -39,7 +39,7 @@ Once page is running on ```localhost:3000```. You would see a simple user interf
 4. No of funds available variable will be updated Once the transaction has successfully gone through and your fund has been created, you can view it on your block/transaction log of your development blockchain.
 
 #### No of funds available
-1. This will be updated Once the transaction has successfully gone through and your fund has been created
+1. This will be updated Once the transaction has successfully gone through and your fund has been created . This number will be incremented and reflected here , when you create new funds using contract call.
 
 ### Task 2: Get Fund details
 1. Just above this area in UI, it would show the number of funds available. You can enter a number from 1 to any number equal to the total number of funds shown above to get more details about a particular fund. If you just created a fund, you just need to enter 1 and click "Get Fund Details" button.  The fund details will be shown below.
