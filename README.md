@@ -25,6 +25,7 @@ Ensure Google Chrome is open and that your are signed into metamask, with your a
 2. In your terminal window, navigate to project root folder and run ```truffle compile```.
 3.  Once compilation is successful, run ```truffle migrate --reset```.
 4. In the root folder, navigate to /client. (From here on your command line,if you have not yet done installation, run ```npm install```). If you have already done the npm installation then ```npm run start```. A new tab should open and you should see the following page running on ```localhost:3000```:
+5. The top of the page would show  your current account address on your metamask
 
 
 # Interacting with the Dapp
