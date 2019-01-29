@@ -35,16 +35,18 @@ Once page is running on ```localhost:3000```. You would see a simple user interf
 1. If you are running it for the first time, You will have to create a new fund. Go to the User Interface area for "Create New fund". Enter 'Name', Fund hardcap, and Benefitiary Address ( in this case just paste one of the test accounts address, except your own account. 
 2. Click Create New Fund button 
 3. Metamask will be fired to confirm the transaction to create a new fund.
-4. No of funds available will be updated
-Once the transaction has successfully gone through and your bounty has been created, you can view it on your block/transaction log of your development blockchain.
+4. No of funds available variable will be updated Once the transaction has successfully gone through and your fund has been created, you can view it on your block/transaction log of your development blockchain.
+
+##No of funds available
+1. This will be updated Once the transaction has successfully gone through and your fund has been created
 
 ### Task 2: Get Fund details
-1. On line 2, it would show the number of funds available. You can enter any number from 0 to one less than total number of funds to get more details about that fund. If you just created a fund, you just need to enter 0(starting of fundId) and click "Get Fund Details" button.  The details will be shown below.
+1. Just above this area in UI, it would show the number of funds available. You can enter any number from 1 to equal to total number of funds to get more details about that fund. If you just created a fund, you just need to enter 1 and click "Get Fund Details" button.  The details will be shown below.
 
 ### Task 3: Contribute to a fund
-1. If you know your fund id , enter it along with the amount in ether you want to contribute. 
+1. If you know your fund id , enter it along with the amount in ether you want to contribute. If you just created a fund, you just need to enter 1 and the number of ether you want to contribute.
 2. Click contribute button 
-3. clicking this will trigger another metamask modal, asking to confirm the transaction. Once the transaction succeeds, the contribution  amount will be transferred from your account to the benefitiary's account (determined during creation).
+3. Clicking this will trigger another metamask modal, asking to confirm the transaction. Once the transaction succeeds, the contribution  amount will be transferred from your account to the benefitiary's account (determined during creation).
 
 If metamask is having issues recognising your address, refresh the browser page.
 
