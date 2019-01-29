@@ -38,7 +38,7 @@ Once page is running on ```localhost:3000```. You would see a simple user interf
 3. Metamask will be fired to confirm the transaction to create a new fund.
 4. No of funds available variable will be updated Once the transaction has successfully gone through and your fund has been created, you can view it on your block/transaction log of your development blockchain.
 
-# No of funds available
+#### No of funds available
 1. This will be updated Once the transaction has successfully gone through and your fund has been created
 
 ### Task 2: Get Fund details
